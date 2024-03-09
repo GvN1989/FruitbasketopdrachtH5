@@ -70,13 +70,16 @@ Maak eigen componenten van elementen die je heel veel hebt hergebruikt. Om dit v
 * En als je dan toch bezig bent, voorzie dan de buttons van conditionele styling. Wanneer een fruitsoort 1 of meer keer aangeklikt is, kun je 'm bijvoorbeeld een gekleurde rand geven!
 
 
-//* function handlesubmit(e){
-firstNameValue: "",
-lastNameValue: "",
-ageValue: 0,
-postalCodeValue: "",
-orderFreq:"",
-remarkValue: "",
-timeslot:"",
-conditionsValue: "",
-});
+function handleSubmit(e){
+e.preventDefault();
+console.log(`Voornaam:' ${firstNameValue},
+Achternaam: ${lastNameValue},
+Leeftijd: ${ageValue},
+Postcode: ${postalCodeValue},.
+Bezorgfrequentie: ${orderFreq},
+Opmerkingen: ${remarkValue},
+Voorkeur bezorgmoment: ${timeslot},
+Algemene voorwaarden: ${conditionsValue}`);
+
+       console.log(`Fruitmand bestelling - aardbeien: ${strawberries} bananen: ${bananas}, appels:${appels}, kiwi's: ${kiwis}`)
+    } 

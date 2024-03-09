@@ -1,6 +1,7 @@
 import './App.css'
 import {useState} from "react";
 import {useForm} from "react-hook-form";
+import Button from "./components/Button.jsx";
 
 function App() {
 
@@ -25,22 +26,23 @@ function App() {
         setStrawberries(0);
         setAppels(0);
     }
+    const {register, handleSubmit, formState:{errors},} = useForm();
 
     function handleSubmit(e){
-        e.preventDefault();
+        e.preventDefault(e);
         console.log(`Voornaam:' ${firstNameValue},
-            Achternaam: ${lastNameValue},
-            Leeftijd: ${ageValue},
-            Postcode: ${postalCodeValue},.
-            Bezorgfrequentie: ${orderFreq},
-            Opmerkingen: ${remarkValue},
-            Voorkeur bezorgmoment: ${timeslot}, 
-            Algemene voorwaarden: ${conditionsValue}`);
+                    Achternaam: ${lastNameValue},
+                    Leeftijd: ${ageValue},
+                    Postcode: ${postalCodeValue},.
+                    Bezorgfrequentie: ${orderFreq},
+                    Opmerkingen: ${remarkValue},
+                    Voorkeur bezorgmoment: ${timeslot},
+                    Algemene voorwaarden: ${conditionsValue}`);
 
         console.log(`Fruitmand bestelling - aardbeien: ${strawberries} bananen: ${bananas}, appels:${appels}, kiwi's: ${kiwis}`)
     }
 
-  return (
+    return (
     <>
         <h1><img className="fruitbasket logo" src="/src/assets/screenshot-logo.png" alt="logo company fruit basket"/></h1>
         <section className="fruitcounters">
@@ -68,7 +70,13 @@ function App() {
                     <div> {kiwis} </div>
                     <button type= "button" onClick={() => setKiwis( kiwis +1)}> +</button>
                 </article>
-                <button className="resetButton" onClick={resetFruits}> Reset</button>
+                <Button
+                    type="button"
+                    clickhandler={resetFruits}
+                >
+                 Reset
+                </Button>
+
         </section>
 
         <form onSubmit={handleSubmit}>
@@ -117,11 +125,12 @@ function App() {
 
                 <section className="deliveryInfo deliveryFreq">
                     <label htmlFor="orderFreq"> Bezorgfrequentie </label>
-                    <select>
+                    <select
                         id="orderFreq"
                         name="orderFreq"
                         value={orderFreq}
                         onChange={(e) => toggleOrderFreq(e.target.value)}
+                        >
                         <option value= "weekly"> iedere week </option>
                         <option value= "biweekly"> om de week </option>
                         <option value= "monthly"> iedere maand </option>
