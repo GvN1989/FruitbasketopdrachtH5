@@ -1,22 +1,22 @@
 import './App.css'
 import {useState} from "react";
+import {useForm} from "react-hook-form";
 
 function App() {
 
-    const [strawberries, setStrawberries] = useState(0)
+    const [strawberries, setStrawberries] = useState(0);
+    const [bananas, setBananas] = useState(0);
+    const [appels, setAppels] = useState(0);
+    const [kiwis, setKiwis] = useState(0);
 
-    const [bananas, setBananas] = useState(0)
-    const increaseBananas = () => {setBananas(prevState => prevState + 1);}
-    const decreaseBananas = () => {setBananas(prevState => (prevState > 0 ? prevState -1: 0));}
-
-
-    const [appels, setAppels] = useState(0)
-    const increaseAppels = () => {setAppels(prevState => prevState + 1);}
-    const decreaseAppels = () => {setAppels(prevState => (prevState > 0 ? prevState -1: 0));}
-
-    const [kiwis, setKiwis] = useState(0)
-    const increaseKiwis = () => {setKiwis(prevState => prevState + 1);}
-    const decreaseKiwis = () => {setKiwis(prevState => (prevState > 0 ? prevState -1: 0));}
+    const [firstNameValue, setFirstNameValue] = useState("");
+    const [lastNameValue, setLastNameValue] = useState("");
+    const [ageValue, setAgeValue] = useState(0);
+    const [postalCodeValue, setPostalCodeValue] = useState("");
+    const [orderFreq, toggleOrderFreq] = useState("week");
+    const [timeslot, toggleTimeslot] = useState("");
+    const [remarkValue, setRemarkValue] = useState("");
+    const [conditionsValue, toggleConditionsValue] = useState(false)
 
 
     function resetFruits (){
@@ -26,134 +26,116 @@ function App() {
         setAppels(0);
     }
 
-    const [formState, setFormState] = useState({
-        firstNameValue: "",
-        lastNameValue: "",
-        ageValue: 0,
-        postalCodeValue: "",
-        orderFreq:"",
-        remarkValue: "",
-        timeslot:"",
-        conditionsValue: "",
-    });
+    function handleSubmit(e){
+        e.preventDefault();
+        console.log(`Voornaam:' ${firstNameValue},
+            Achternaam: ${lastNameValue},
+            Leeftijd: ${ageValue},
+            Postcode: ${postalCodeValue},.
+            Bezorgfrequentie: ${orderFreq},
+            Opmerkingen: ${remarkValue},
+            Voorkeur bezorgmoment: ${timeslot}, 
+            Algemene voorwaarden: ${conditionsValue}`);
 
-    const [conditionsValue,toggleConditionsValue]=useState("")
-
-    function handleChange(e) {
-        const changedFieldName= e.target.name;
-
-        const newValue= e.target.type === "checkbox" ? e.target.checked: e.target.value;
-
-        setFormState({
-            ...formState,
-        [changedFieldName]: newValue,
-        })
+        console.log(`Fruitmand bestelling - aardbeien: ${strawberries} bananen: ${bananas}, appels:${appels}, kiwi's: ${kiwis}`)
     }
-
-
-
 
   return (
     <>
-
         <h1><img className="fruitbasket logo" src="/src/assets/screenshot-logo.png" alt="logo company fruit basket"/></h1>
-        <form >
-                <fieldset className="fruitbox">
-                    <p> 🍓 Aardbeien </p>
-                    <button type= "button" disabled={strawberries === 0} onClick= {()=> setStrawberries(strawberries -1)}> -</button>
+        <section className="fruitcounters">
+                <article>
+                    <h2> 🍓 Aardbeien </h2>
+                    <button type= "button" disabled={strawberries === 0} onClick= {()=> setStrawberries(strawberries -1)}> - </button>
                     <div> {strawberries}  </div>
                     <button type= "button" onClick={() => setStrawberries(strawberries+1)}> +</button>
-                </fieldset>
-
-                <fieldset className="fruitbox">
-                    <p>🍌 Bananen </p>
-                    <button onClick={decreaseBananas}> -</button>
+                </article>
+                <article>
+                    <h2>🍌 Bananen </h2>
+                    <button type = "button" disabled={bananas === 0} onClick= {()=> setBananas(bananas -1)}> - </button>
                     <div> {bananas} </div>
-                    <button onClick={increaseBananas}> +</button>
-                </fieldset>
-
-                <fieldset className="fruitbox">
-                    <p> 🍏 Appels </p>
-                    <button onClick={decreaseAppels}> -</button>
+                    <button type= "button" onClick={() => setBananas( bananas +1)}> +</button>
+                </article>
+                <article>
+                    <h2> 🍏 Appels </h2>
+                    <button type = "button" disabled={appels === 0} onClick= {()=> setAppels(appels -1)}> -</button>
                     <div> {appels}  </div>
-                    <button onClick={increaseAppels}> +</button>
-                </fieldset>
-
-                <fieldset className="fruitbox">
-                    <p> 🥝 Kiwi's </p>
-                    <button onClick={decreaseKiwis}> -</button>
+                    <button type= "button" onClick={() => setAppels( appels +1)}> +</button>
+                </article>
+                <article>
+                    <h2> 🥝 Kiwi's </h2>
+                    <button type = "button" disabled={kiwis === 0} onClick= {()=> setKiwis(kiwis -1)}> -</button>
                     <div> {kiwis} </div>
-                    <button onClick={increaseKiwis}> +</button>
-                </fieldset>
+                    <button type= "button" onClick={() => setKiwis( kiwis +1)}> +</button>
+                </article>
+                <button className="resetButton" onClick={resetFruits}> Reset</button>
+        </section>
 
-                <fieldset className="fruitbox">
-                    <button className="resetButton" onClick={resetFruits}> Reset</button>
-                </fieldset>
-
-                <fieldset className="deliveryInfo">
+        <form onSubmit={handleSubmit}>
+                <section className="deliveryInfo">
                     <label htmlFor="firstName"> Voornaam </label>
                     <input type="text"
                            id="firstName"
                            name="firstName"
-                           value={formState.firstNameValue}
-                           onChange={handleChange}
+                           value={firstNameValue}
+                           onChange={(e) => setFirstNameValue(e.target.value)}
                     />
-                </fieldset>
+                </section>
 
-                <fieldset className="deliveryInfo">
+                <section className="deliveryInfo">
                     <label htmlFor="lastName"> Achternaam </label>
                     <input
                         type="text"
                         id="lastName"
                         name="lastName"
-                        value={formState.lastNameValue}
-                        onChange={handleChange}
+                        value={lastNameValue}
+                        onChange={(e) => setLastNameValue(e.target.value)}
                     />
-                </fieldset>
+                </section>
 
-                <fieldset className="deliveryInfo">
+                <section className="deliveryInfo">
                     <label htmlFor="age"> Leeftijd </label>
                     <input
                         type="number"
                         id="age"
                         name="age"
-                        value={formState.ageValue}
-                        onChange={handleChange}
+                        value={ageValue}
+                        onChange={(e) => setAgeValue(parseInt(e.target.value))}
                     />
-                </fieldset>
+                </section>
 
-                <fieldset className="deliveryInfo">
+                <section className="deliveryInfo">
                     <label htmlFor="postalCode"> Postcode </label>
                     <input
                         type= "text"
                         id="postalCode"
                         name="postalCode"
-                        value={formState.postalCodeValue}
-                        onChange={handleChange}
+                        value={postalCodeValue}
+                        onChange={(e)=> setPostalCodeValue(e.target.value)}
                     />
-                </fieldset>
+                </section>
 
-                <fieldset className="deliveryInfo deliveryFreq">
+                <section className="deliveryInfo deliveryFreq">
                     <label htmlFor="orderFreq"> Bezorgfrequentie </label>
-                    <select
+                    <select>
                         id="orderFreq"
-                        name="orderFreq">
-                        value={formState.orderFreq}
-                        onChange={handleChange}
+                        name="orderFreq"
+                        value={orderFreq}
+                        onChange={(e) => toggleOrderFreq(e.target.value)}
                         <option value= "weekly"> iedere week </option>
                         <option value= "biweekly"> om de week </option>
                         <option value= "monthly"> iedere maand </option>
                     </select>
-                </fieldset>
+                </section>
 
-                <fieldset className="deliveryInfo">
+                <section className="deliveryInfo">
                     <input
                         type="radio"
                         id="day"
                         name="timeslot"
                         value="day"
-                        checked={formState.timeslot==="day"}
-                        onChange={handleChange}
+                        checked={timeslot==='day'}
+                        onChange={(e)=> toggleTimeslot(e.target.value)}
                     />
                     <label htmlFor="day"> overdag </label>
 
@@ -162,34 +144,34 @@ function App() {
                         id="evening"
                         name="timeslot"
                         value="evening"
-                        checked={formState.timeslot==="night"}
-                        onChange={handleChange}
+                        checked={timeslot==='evening'}
+                        onChange={(e)=> toggleTimeslot(e.target.value)}
                     />
                     <label htmlFor="evening"> 's avonds </label>
-                </fieldset>
+                </section>
 
-                <fieldset className="deliveryInfo-container">
+                <section className="deliveryInfo-container">
                     <label htmlFor="remark"> Opmerkingen </label>
                     <textarea
-                        id="remarks"
+                        id="remark"
                         name="remarks"
-                        value={formState.remarkValue}
-                        onChange={handleChange}
+                        value={remarkValue}
+                        onChange={(e)=> setRemarkValue(e.target.value)}
                         rows="5"
                         cols="33">
                     </textarea>
-                </fieldset>
+                </section>
 
-                <fieldset className="deliveryInfo">
+                <section className="deliveryInfo">
                     <input
                         type="checkbox"
-                        id="form-conditions"
+                        id="conditions"
                         name="conditions"
                         checked={conditionsValue}
-                        onChange={() => toggleConditionsValue(!conditionsValue)}
+                        onChange={(e) => toggleConditionsValue(e.target.checked)}
                     />
                     <label htmlFor="conditions"> Ik ga akkoord met de voorwaarden</label>
-                </fieldset>
+                </section>
 
                 <button className="submit"> Verzend </button>
         </form>
