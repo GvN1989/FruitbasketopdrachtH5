@@ -5,7 +5,7 @@ function Button ({clickHandler, type,children, disabled}){
         <button
             onClick={clickHandler}
             type={type}
-            disabled={disable || false}
+            disabled={disabled || false}
         >
             {children}
         </button>

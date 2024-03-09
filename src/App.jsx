@@ -1,7 +1,8 @@
 import './App.css'
 import {useState} from "react";
-import {useForm} from "react-hook-form";
 import Button from "./components/Button.jsx";
+import Counter from "./components/Counter.jsx";
+import InputField from "./components/InputField.jsx";
 
 function App() {
 
@@ -26,10 +27,9 @@ function App() {
         setStrawberries(0);
         setAppels(0);
     }
-    const {register, handleSubmit, formState:{errors},} = useForm();
 
     function handleSubmit(e){
-        e.preventDefault(e);
+        e.preventDefault();
         console.log(`Voornaam:' ${firstNameValue},
                     Achternaam: ${lastNameValue},
                     Leeftijd: ${ageValue},
@@ -48,89 +48,86 @@ function App() {
         <section className="fruitcounters">
                 <article>
                     <h2> 🍓 Aardbeien </h2>
-                    <button type= "button" disabled={strawberries === 0} onClick= {()=> setStrawberries(strawberries -1)}> - </button>
-                    <div> {strawberries}  </div>
-                    <button type= "button" onClick={() => setStrawberries(strawberries+1)}> +</button>
+                    <Counter
+                        fruitCount={strawberries}
+                        setFruitCount={setStrawberries}
+                    />
                 </article>
                 <article>
                     <h2>🍌 Bananen </h2>
-                    <button type = "button" disabled={bananas === 0} onClick= {()=> setBananas(bananas -1)}> - </button>
-                    <div> {bananas} </div>
-                    <button type= "button" onClick={() => setBananas( bananas +1)}> +</button>
+                    <Counter
+                        fruitCount={bananas}
+                        setFruitCount={setBananas}
+                    />
                 </article>
                 <article>
                     <h2> 🍏 Appels </h2>
-                    <button type = "button" disabled={appels === 0} onClick= {()=> setAppels(appels -1)}> -</button>
-                    <div> {appels}  </div>
-                    <button type= "button" onClick={() => setAppels( appels +1)}> +</button>
+                    <Counter
+                        fruitCount={appels}
+                        setFruitCount={setAppels}
+                    />
                 </article>
                 <article>
                     <h2> 🥝 Kiwi's </h2>
-                    <button type = "button" disabled={kiwis === 0} onClick= {()=> setKiwis(kiwis -1)}> -</button>
-                    <div> {kiwis} </div>
-                    <button type= "button" onClick={() => setKiwis( kiwis +1)}> +</button>
+                    <Counter
+                        fruitCount={kiwis}
+                        setFruitCount={setKiwis} />
                 </article>
                 <Button
                     type="button"
-                    clickhandler={resetFruits}
+                    clickHandler={resetFruits}
                 >
                  Reset
                 </Button>
-
         </section>
-
         <form onSubmit={handleSubmit}>
                 <section className="deliveryInfo">
-                    <label htmlFor="firstName"> Voornaam </label>
-                    <input type="text"
-                           id="firstName"
-                           name="firstName"
-                           value={firstNameValue}
-                           onChange={(e) => setFirstNameValue(e.target.value)}
-                    />
-                </section>
-
-                <section className="deliveryInfo">
-                    <label htmlFor="lastName"> Achternaam </label>
-                    <input
+                    <InputField
+                        label="Voornaam "
+                        name = "firstName"
                         type="text"
-                        id="lastName"
+                        value={firstNameValue}
+                        changeHandler={setFirstNameValue}
+                        />
+                </section>
+
+                <section className="deliveryInfo">
+                    <InputField
+                        label="Achternaam"
                         name="lastName"
+                        type="text"
                         value={lastNameValue}
-                        onChange={(e) => setLastNameValue(e.target.value)}
+                        changeHandler={setLastNameValue}
                     />
                 </section>
 
                 <section className="deliveryInfo">
-                    <label htmlFor="age"> Leeftijd </label>
-                    <input
-                        type="number"
-                        id="age"
+                    <InputField
+                        label="Leeftijd"
                         name="age"
+                        type="number"
                         value={ageValue}
-                        onChange={(e) => setAgeValue(parseInt(e.target.value))}
+                        changeHandler={setAgeValue}
                     />
                 </section>
 
                 <section className="deliveryInfo">
-                    <label htmlFor="postalCode"> Postcode </label>
-                    <input
-                        type= "text"
-                        id="postalCode"
+                    <InputField
+                        label="Postcode"
                         name="postalCode"
+                        type="text"
                         value={postalCodeValue}
-                        onChange={(e)=> setPostalCodeValue(e.target.value)}
-                    />
+                        changeHandler={setPostalCodeValue}
+                        />
                 </section>
 
                 <section className="deliveryInfo deliveryFreq">
                     <label htmlFor="orderFreq"> Bezorgfrequentie </label>
-                    <select
+                    <select>
                         id="orderFreq"
                         name="orderFreq"
                         value={orderFreq}
                         onChange={(e) => toggleOrderFreq(e.target.value)}
-                        >
                         <option value= "weekly"> iedere week </option>
                         <option value= "biweekly"> om de week </option>
                         <option value= "monthly"> iedere maand </option>
@@ -182,7 +179,12 @@ function App() {
                     <label htmlFor="conditions"> Ik ga akkoord met de voorwaarden</label>
                 </section>
 
-                <button className="submit"> Verzend </button>
+            <Button
+            type="submit"
+            >
+                Verzend
+            </Button>
+
         </form>
     </>
   )
