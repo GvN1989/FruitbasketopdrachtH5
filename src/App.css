@@ -1,0 +1,21 @@
+.fruitbox{
+    font-size: 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 8px;
+    border-color: black;
+    margin-top: 10px;
+}
+
+button {
+    margin: 10px;
+}
+
+
+.resetButton {
+    font-size: 24px;
+    width: 500px;
+    border-radius: 10px;
+    border-color: grey;
+}
